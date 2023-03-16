@@ -52,6 +52,14 @@ class FeedFragment : Fragment() {
 
         observeLiveData()
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.countryList.visibility = View.GONE
+
+            binding.countryLoading.visibility = View.VISIBLE
+            viewModel.refreshData()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
     }
 
     private fun observeLiveData(){
@@ -67,8 +75,6 @@ class FeedFragment : Fragment() {
             countryError?.let {
                 if(it){
                     binding.countryError.visibility = View.VISIBLE
-                    binding.countryList.visibility = View.GONE
-                    binding.countryLoading.visibility = View.GONE
                 }
                 else{
                     binding.countryError.visibility = View.GONE
